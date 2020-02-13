@@ -2,6 +2,8 @@ def countSwaps(a):
     n = len(a)
     swap_count = 0
 
+    # Code provided by Hacker Rank
+    # I'm not convinced this should be a problem.
     for i in range(n):
         for j in range(n-1):
             if a[j] > a[j + 1]:
