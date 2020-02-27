@@ -19,6 +19,7 @@ class Player:
     def __repr__(self):
         return f'{self.name}: {self.score}'
 
+    @staticmethod
     def comparator(a, b):
         '''
         returns:
