@@ -8,10 +8,10 @@ def minimumAbsoluteDifference(arr):
     -10e9 <= arr[i] <= 10e9
     '''
     n = len(arr)
+    arr = sorted(arr)
     best = None
-    for i in range(n):
-        for j in range(i+1, n):
-            current = arr[i] - arr[j]
+    for i in range(n-1):
+            current = arr[i] - arr[i+1]
             if current < 0:
                 current = -1 * current
             if best is None or current < best:
