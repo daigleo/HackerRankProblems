@@ -1,6 +1,9 @@
 import time
+from functools import wraps
 
-def timed_func(fn, n=10000):
+
+def timed_func(fn, n=1000):
+    @wraps(fn)
     def do_n_times(*args, **kwargs):
         time_start = time.perf_counter()
         for _ in range(n):
@@ -47,14 +50,36 @@ def counting_sort():
     pass
 
 
-def radix_sort():
+def radix_sort(arr):
     # https://en.wikipedia.org/wiki/Radix_sort#Least_significant_digit_radix_sorts
     pass
 
 
-def merge_sort():
+def merge_sort(arr):
     # https://en.wikipedia.org/wiki/Merge_sort
-    pass
+    n = len(arr)
+    if n < 2:
+        return arr
+    mid = n // 2 + n % 2
+    L, R = merge_sort(arr[:mid]), merge_sort(arr[mid:])
+    i = j = 0
+    n, m = len(L), len(R)
+    merged_arr = []
+    while i < n and j < m:
+        if L[i] <= R[j]:
+            merged_arr.append(L[i])
+            i += 1
+        else:
+            merged_arr.append(R[j])
+            j += 1
+    while i < n:
+        merged_arr.append(L[i])
+        i += 1
+    while j < m:
+        merged_arr.append(R[j])
+        j += 1
+    return merged_arr
+
 
 
 def tim_sort():
@@ -65,6 +90,8 @@ def tim_sort():
 
 if __name__ == "__main__":
     tests = [[56, 24, 35, 3, 100, 88, 22, 89, 12, 88, 99, 6, 73]]
+    functions = [bubble_sort, merge_sort]
 
     for test in tests:
-        print(bubble_sort(test))
+        for function in functions:
+            print(timed_func(function, 10000)(test))
