@@ -45,10 +45,29 @@ def heap_sort():
     pass
 
 
-def counting_sort():
+def counting_sort(arr):
     # https://en.wikipedia.org/wiki/Counting_sort
-    pass
+    # Knowing the range of arr would speed up this algorithm as it would
+    # avoid the extra pass through the array to determine the min/max values
+    arr_min, arr_max = None, None
+    for item in arr:
+        if arr_min is None or item < arr_min:
+            arr_min = item
+        if arr_max is None or item > arr_max:
+            arr_max = item
 
+    freqs = (arr_max - arr_min + 1) * [0]
+    for item in arr:
+        freqs[item - arr_min] += 1
+    for i in range(1, len(freqs)):
+        freqs[i] = freqs[i-1] + freqs[i]
+    freqs = [0] + freqs[:-1]
+
+    sorted_arr = len(arr) * [None]
+    for item in arr:
+        sorted_arr[freqs[item - arr_min]] = item
+        freqs[item - arr_min] += 1
+    return sorted_arr
 
 def radix_sort(arr):
     # https://en.wikipedia.org/wiki/Radix_sort#Least_significant_digit_radix_sorts
@@ -90,7 +109,7 @@ def tim_sort():
 
 if __name__ == "__main__":
     tests = [[56, 24, 35, 3, 100, 88, 22, 89, 12, 88, 99, 6, 73]]
-    functions = [bubble_sort, merge_sort]
+    functions = [bubble_sort, merge_sort, counting_sort]
 
     for test in tests:
         for function in functions:
